@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script type="text/javascript" src="https://files.coinmarketcap.com/static/widget/coinMarquee.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed&family=IBM+Plex+Sans:wght@700&display=swap" rel="stylesheet">
+    <title>Document</title>
+    <style>
+        body {
+            width: auto;
+        }
+        
+        .container {
+            background-color: #FAFAFA;
+            margin: auto;
+            width: 60vw;
+            padding: 20px;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034), 0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06), 0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086), 0 100px 80px rgba(0, 0, 0, 0.12);
+        }
+        
+        .coin-line {
+            margin: 3px;
+            padding: 10px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75);
+        }
+        
+        .coin-title {
+            display: flex;
+            flex-direction: row;
+            vertical-align: middle;
+        }
+        
+        .coin-image img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            padding-right: 10px;
+        }
+        
+        .coins {
+            width: auto;
+        }
+        
+        .price {
+            display: flex;
+            flex-direction: row;
+        }
+        
+        p {
+            margin: 0;
+            padding: 0;
+        }
+        
+        h3 {
+            padding: 0;
+            margin: 0;
+        }
+        
+        h1 {
+            color: #111;
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 55px;
+            font-weight: bold;
+            text-align: start;
+            letter-spacing: -1px;
+            line-height: 1;
+        }
+        
+        #pie-chart {
+            width: 400px;
+            height: 250px;
+            position: relative;
+            margin-left: 10px;
+            margin-bottom: 40px;
+            padding-top: 40px;
+        }
+        
+        #pie-chart::before {
+            content: "";
+            position: absolute;
+            display: block;
+            width: 120px;
+            height: 115px;
+            left: 315px;
+            top: 0;
+        }
+        
+        #pie-chart::after {
+            content: "";
+            position: absolute;
+            display: block;
+            top: 260px;
+            left: 70px;
+            width: 170px;
+            height: 2px;
+        }
+        
+        .entry {
+            display: flex;
+            flex-direction: row;
+        }
+        
+        @media only screen and (max-width: 600px) {
+            body {
+                width: auto;
+            }
+            .container {
+                margin: auto;
+                width: 80vw;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <body>
+        <div class="container">
+            <h1>Cüzdan Özeti</h1>
+            <p style="font-family: 'IBM Plex Sans', sans-serif;color: rgb(71, 77, 87);opacity: 0.9;">Varlıkların toplam değeri</p>
+            <pre style="display: flex;margin: 0px;font-size: 20px;color: rgb(30, 35, 41);">≈ ₺<p id="subTotal" style="color: rgb(71, 77, 87);">dsas</p></pre>
+            <div id="pie-chart"></div>
+            <div class="wallet">
+                <div class="coin-line">
+                    <div class="coin-title">
+                        <div class="coin-image">
+                            <img src="https://coincost.net/uploads/temp/d4ef4f3ef3b0a22d0a2a16a152477086.png">
+                        </div>
+                        <div class="coin-name">
+                            <h4>SOL</h4>
+                        </div>
+                    </div>
+                    <div style="padding-right: 10px;">
+                        <div class="amount" style="text-align: end;float:float-right;margin: 0;padding-top: 10px;padding-left: 10px;">
+                            <h3 id="amount-sol">2</h3>
+                        </div>
+                        <div class="price" style="margin: 0;padding-top: 5px;">
+                            <pre style="padding: 0;margin: 0;">₺</pre>
+                            <p id="sol-price">245</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="coin-line">
+                    <div class="coin-title">
+                        <div class="coin-image">
+                            <img src="data:image/png;base64,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">
+                        </div>
+                        <div class="coin-name">
+                            <h4>VET</h4>
+                        </div>
+                    </div>
+                    <div style="padding-right: 10px;">
+                        <div class="amount" style="text-align: end;float:float-right;margin: 0;padding-top: 10px;padding-left: 10px;">
+                            <h3 id="amount-vet">500</h3>
+                        </div>
+                        <div class="price" style="margin: 0;padding-top: 5px;">
+                            <pre style="padding: 0;margin: 0;">₺</pre>
+                            <p id="vet-price">245</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="coin-line">
+                    <div class="coin-title">
+                        <div class="coin-image">
+                            <img src="https://s2.coinmarketcap.com/static/img/coins/200x200/512.png">
+                        </div>
+                        <div class="coin-name">
+                            <h4>XLM</h4>
+                        </div>
+                    </div>
+                    <div style="padding-right: 10px;">
+                        <div class="amount" style="text-align: end;float:float-right;margin: 0;padding-top: 10px;padding-left: 10px;">
+                            <h3 id="amount-xlm">100</h3>
+                        </div>
+                        <div class="price" style="margin: 0;padding-top: 5px;">
+                            <pre style="padding: 0;margin: 0;">₺</pre>
+                            <p id="xlm-price">245</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="coin-line">
+                    <div class="coin-title">
+                        <div class="coin-image">
+                            <img src="https://s2.coinmarketcap.com/static/img/coins/200x200/1958.png">
+                        </div>
+                        <div class="coin-name">
+                            <h4>TRX</h4>
+                        </div>
+                    </div>
+                    <div style="padding-right: 10px;">
+                        <div class="amount" style="text-align: end;float:float-right;margin: 0;padding-top: 10px;padding-left: 10px;">
+                            <h3 id="amount-trx">500</h3>
+                        </div>
+                        <div class="price" style="margin: 0;padding-top: 5px;">
+                            <pre style="padding: 0;margin: 0;">₺</pre>
+                            <p id="trx-price">245</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="coin-line">
+                    <div class="coin-title">
+                        <div class="coin-image">
+                            <img src="https://lh6.googleusercontent.com/fmYjkgGtqxES5BadHCtKHbOTTKjJz5z6db5mM1ww7Hw4Du8NWWDiJmueVu2O6XDqJT9blm_BRg__x64fy10yb_wgqI0k2nN_695dKuR9c4WhhY2ouBZe6vPji4NxB1cXvJLdcJ4n3DXGBbEvCw">
+                        </div>
+                        <div class="coin-name">
+                            <h4>CAKE</h4>
+                        </div>
+                    </div>
+                    <div style="padding-right: 10px;">
+                        <div class="amount" style="text-align: end;float:float-right;margin: 0;padding-top: 10px;padding-left: 10px;">
+                            <h3 id="amount-cake">3</h3>
+                        </div>
+                        <div class="price" style="margin: 0;padding-top: 5px;">
+                            <pre style="padding: 0;margin: 0;">₺</pre>
+                            <p id="cake-price">245</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="coin-line">
+                    <div class="coin-title">
+                        <div class="coin-image">
+                            <img src="https://s2.coinmarketcap.com/static/img/coins/200x200/4642.png">
+                        </div>
+                        <div class="coin-name">
+                            <h4>HBAR</h4>
+                        </div>
+                    </div>
+                    <div style="padding-right: 10px;">
+                        <div class="amount" style="text-align: end;float:float-right;margin: 0;padding-top: 10px;padding-left: 10px;">
+                            <h3 id="amount-hbar">300</h3>
+                        </div>
+                        <div class="price" style="margin: 0;padding-top: 5px;">
+                            <pre style="padding: 0;margin: 0;">₺</pre>
+                            <p id="hbar-price">245</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="coin-line">
+                    <div class="coin-title">
+                        <div class="coin-image">
+                            <img src="https://s2.coinmarketcap.com/static/img/coins/200x200/4157.png">
+                        </div>
+                        <div class="coin-name">
+                            <h4>RUNE</h4>
+                        </div>
+                    </div>
+                    <div style="padding-right: 10px;">
+                        <div class="amount" style="text-align: end;float:float-right;margin: 0;padding-top: 10px;padding-left: 10px;">
+                            <h3 id="amount-rune">5</h3>
+                        </div>
+                        <div class="price" style="margin: 0;padding-top: 5px;">
+                            <pre style="padding: 0;margin: 0;">₺</pre>
+                            <p id="rune-price">245</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="coin-line">
+                    <div class="coin-title">
+                        <div class="coin-image">
+                            <img src="https://s2.coinmarketcap.com/static/img/coins/200x200/7857.png">
+                        </div>
+                        <div class="coin-name">
+                            <h4>MIR</h4>
+                        </div>
+                    </div>
+                    <div style="padding-right: 10px;">
+                        <div class="amount" style="text-align: end;float:float-right;margin: 0;padding-top: 10px;padding-left: 10px;">
+                            <h3 id="amount-mir">5</h3>
+                        </div>
+                        <div class="price" style="margin: 0;padding-top: 5px;">
+                            <pre style="padding: 0;margin: 0;">₺</pre>
+                            <p id="mir-price">245</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="coins">
+                <div id="coinmarketcap-widget-marquee" coins="5426,3077,512,1958,7186,4642,4157,7857" currency="TRY" theme="light" transparent="false" show-symbol-logo="true"></div>
+            </div>
+        </div>
+    </body>
+    <script>
+        var url = "https://api.coingecko.com/api/v3/simple/price?ids=solana%2Cvechain%2Cstellar%2Ctron%2Cpancakeswap-token%2Chedera-hashgraph%2Cthorchain%2Cmirror-protocol&vs_currencies=try"
+        var xmlhttp = new XMLHttpRequest();
+
+        var sol = 3
+        var vet = 1
+        var xlm = 0.01
+        var trx = 0.01
+        var cake = 0.01
+        var hbar = 0.01
+        var rune = 0.01
+        var mir = 0.01
+
+        var sol_price = 3
+        var vet_price = 1
+        var xlm_price = 0.01
+        var trx_price = 0.01
+        var cake_price = 0.01
+        var hbar_price = 0.01
+        var rune_price = 0.01
+        var mir_price = 0.01
+
+        var amount_sol = document.getElementById("amount-sol").innerText
+        var amount_vet = document.getElementById("amount-vet").innerText
+        var amount_xlm = document.getElementById("amount-xlm").innerText
+        var amount_trx = document.getElementById("amount-trx").innerText
+        var amount_cake = document.getElementById("amount-cake").innerText
+        var amount_hbar = document.getElementById("amount-hbar").innerText
+        var amount_rune = document.getElementById("amount-rune").innerText
+        var amount_mir = document.getElementById("amount-mir").innerText
+
+        xmlhttp.onreadystatechange = function() {
+            var myArr = JSON.parse(this.responseText);
+
+            try {
+                sol = myArr["solana"]["try"]
+                vet = myArr["vechain"]["try"]
+                xlm = myArr["stellar"]["try"]
+                trx = myArr["tron"]["try"]
+                cake = myArr["pancakeswap-token"]["try"]
+                hbar = myArr["hedera-hashgraph"]["try"]
+                rune = myArr["thorchain"]["try"]
+                mir = myArr["mirror-protocol"]["try"]
+            } catch (err) {
+                console.log(err)
+            }
+            sol_price = sol * amount_sol
+            vet_price = vet * amount_vet
+            xlm_price = xlm * amount_xlm
+            trx_price = trx * amount_trx
+            cake_price = cake * amount_cake
+            hbar_price = hbar * amount_hbar
+            rune_price = rune * amount_rune
+            mir_price = mir * amount_mir
+
+            total = sol_price + vet_price + xlm_price + trx_price + cake_price + hbar_price + rune_price + mir_price
+
+            document.getElementById("sol-price").innerHTML = sol_price.toFixed(2);
+            document.getElementById("vet-price").innerHTML = vet_price.toFixed(2);
+            document.getElementById("xlm-price").innerHTML = xlm_price.toFixed(2);
+            document.getElementById("trx-price").innerHTML = trx_price.toFixed(2);
+            document.getElementById("cake-price").innerHTML = cake_price.toFixed(2);
+            document.getElementById("hbar-price").innerHTML = hbar_price.toFixed(2);
+            document.getElementById("rune-price").innerHTML = rune_price.toFixed(2);
+            document.getElementById("mir-price").innerHTML = mir_price.toFixed(2);
+            document.getElementById("subTotal").innerHTML = total.toFixed(2);
+        }
+
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+
+
+        google.load("visualization", "1", {
+            packages: ["corechart"]
+        });
+        google.setOnLoadCallback(drawCharts);
+
+        function drawCharts() {
+            var pieData = google.visualization.arrayToDataTable([
+                ['Coins', 'Values'],
+                ['solana', sol_price],
+                ['veChain', vet_price],
+                ['stellar', xlm_price],
+                ['tron', trx_price],
+                ['PancakeSwap', cake_price],
+                ['hedera', hbar_price],
+                ['veThor', rune_price],
+                ['mirror protocol', mir_price]
+            ]);
+            // pie chart options
+            var pieOptions = {
+                backgroundColor: '#FAFAFA',
+                pieHole: 0.4,
+                colors: ["cornflowerblue",
+                    "olivedrab",
+                    "orange",
+                    "tomato",
+                    "crimson",
+                    "purple",
+                    "turquoise",
+                    "forestgreen",
+                    "navy",
+                    "gray"
+                ],
+                pieSliceText: 'none',
+                chartArea: {
+                    width: '100%',
+                    height: '96%'
+                },
+            }
+
+            // draw pie chart
+            var pieChart = new google.visualization.PieChart(document.getElementById('pie-chart'));
+            pieChart.draw(pieData, pieOptions);
+        }
+    </script>
+
+</html>
